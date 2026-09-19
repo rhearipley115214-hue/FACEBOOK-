@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connectly</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f0f2f5;
+  color: #1c1e21;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* AUTH */
+
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #eef2f7;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 14px;
+  padding: 30px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.12);
+}
+
+.logo {
+  text-align: center;
+  color: #1877f2;
+  font-size: 38px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: #65676b;
+  margin-bottom: 25px;
+}
+
+.auth-box input {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ccd0d5;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  outline: none;
+}
+
+.auth-box input:focus {
+  border-color: #1877f2;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: #1877f2;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.secondary-btn {
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #42b72a;
+  color: white;
+  font-weight: bold;
+}
+
+/* HEADER */
+
+header {
+  height: 62px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-left,
+.header-center,
+.header-right {
+  flex: 1;
+}
+
+.header-center {
+  display: flex;
+  justify-content: center;
+}
+
+.header-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.brand {
+  color: #1877f2;
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.search {
+  width: 300px;
+  background: #f0f2f5;
+  border: none;
+  border-radius: 22px;
+  padding: 11px 16px;
+  outline: none;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #f0f2f5;
+  font-size: 18px;
+}
+
+/* LAYOUT */
+
+.app {
+  min-height: calc(100vh - 62px);
+}
+
+.layout {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 250px minmax(0, 600px) 250px;
+  gap: 25px;
+  padding: 25px 15px 80px;
+}
+
+/* SIDEBARS */
+
+.sidebar {
+  position: sticky;
+  top: 85px;
+  height: fit-content;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.menu-item:hover {
+  background: #e4e6e9;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #ddd;
+}
+
+.small-avatar {
+  width: 34px;
+  height: 34px;
+}
+
+/* CREATE POST */
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08);
+}
+
+.create-top {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.create-input {
+  flex: 1;
+  border: none;
+  background: #f0f2f5;
+  border-radius: 20px;
+  padding: 12px 16px;
+  cursor: pointer;
+  color: #65676b;
+}
+
+.post-options {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  border-top: 1px solid #ddd;
+  margin-top: 14px;
+  padding-top: 10px;
+}
+
+.post-option {
+  padding: 10px;
+  text-align: center;
+  border-radius: 7px;
+  color: #65676b;
+  font-weight: 600;
+}
+
+.post-option:hover {
+  background: #f0f2f5;
+}
+
+/* POSTS */
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.post-author {
+  font-weight: bold;
+}
+
+.post-time {
+  color: #65676b;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.post-text {
+  margin: 15px 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.post-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.post-stats {
+  display: flex;
+  justify-content: space-between;
+  color: #65676b;
+  padding: 10px 2px;
+  font-size: 14px;
+}
+
+.post-actions {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.post-action {
+  border: none;
+  background: transparent;
+  padding: 11px;
+  color: #65676b;
+  font-weight: bold;
+}
+
+.post-action:hover {
+  background: #f0f2f5;
+}
+
+.post-action.liked {
+  color: #1877f2;
+}
+
+/* COMMENTS */
+
+.comments {
+  margin-top: 10px;
+}
+
+.comment {
+  display: flex;
+  gap: 8px;
+  margin-top: 9px;
+}
+
+.comment-bubble {
+  background: #f0f2f5;
+  padding: 8px 12px;
+  border-radius: 15px;
+}
+
+.comment-name {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.comment-input {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 13px;
+  border: none;
+  background: #f0f2f5;
+  border-radius: 20px;
+  outline: none;
+}
+
+/* RIGHT PANEL */
+
+.panel-title {
+  font-weight: bold;
+  color: #65676b;
+  margin-bottom: 12px;
+}
+
+.friend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.friend-info {
+  flex: 1;
+}
+
+.friend-name {
+  font-weight: bold;
+}
+
+.add-btn {
+  border: none;
+  background: #e7f3ff;
+  color: #1877f2;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+/* MODAL */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  z-index: 500;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.close-btn {
+  border: none;
+  background: #f0f2f5;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.post-textarea {
+  width: 100%;
+  min-height: 150px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-size: 18px;
+}
+
+.image-url {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+/* PROFILE */
+
+.profile-cover {
+  height: 220px;
+  background: linear-gradient(135deg,#1877f2,#8b5cf6);
+  border-radius: 10px 10px 0 0;
+}
+
+.profile-body {
+  background: white;
+  padding: 0 20px 20px;
+  border-radius: 0 0 10px 10px;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 5px solid white;
+  margin-top: -60px;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.profile-bio {
+  color: #65676b;
+  margin: 5px 0 15px;
+}
+
+/* MOBILE NAV */
+
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: white;
+  border-top: 1px solid #ddd;
+  z-index: 200;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.mobile-nav button {
+  border: none;
+  background: transparent;
+  font-size: 21px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width: 900px) {
+  .layout {
+    grid-template-columns: 70px minmax(0,600px);
+    justify-content: center;
+  }
+
+  .right-sidebar {
+    display: none;
+  }
+
+  .menu-text {
+    display: none;
+  }
+
+  .menu-item {
+    justify-content: center;
+  }
+
+  .header-center {
+    display: none;
+  }
+}
+
+@media(max-width: 650px) {
+  header {
+    padding: 0 12px;
+  }
+
+  .brand {
+    font-size: 23px;
+  }
+
+  .layout {
+    display: block;
+    padding: 12px 8px 75px;
+  }
+
+  .left-sidebar,
+  .right-sidebar {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
+  }
+
+  .search {
+    display: none;
+  }
+
+  .card {
+    border-radius: 7px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<section id="authScreen" class="auth-screen">
+  <div class="auth-box">
+    <div class="logo">Connectly</div>
+    <div class="auth-subtitle">
+      Connect with people and share your world.
+    </div>
+
+    <input id="loginEmail" type="email" placeholder="Email address">
+    <input id="loginPassword" type="password" placeholder="Password">
+
+    <button class="primary-btn" onclick="login()">Log In</button>
+
+    <button class="secondary-btn" onclick="showSignup()">
+      Create New Account
+    </button>
+  </div>
+</section>
+
+<!-- SIGNUP -->
+
+<section id="signupScreen" class="auth-screen hidden">
+  <div class="auth-box">
+    <div class="logo">Connectly</div>
+    <div class="auth-subtitle">
+      Create your account
+    </div>
+
+    <input id="signupName" placeholder="Full name">
+    <input id="signupEmail" type="email" placeholder="Email address">
+    <input id="signupPassword" type="password" placeholder="Password">
+
+    <button class="primary-btn" onclick="signup()">
+      Sign Up
+    </button>
+
+    <button class="secondary-btn" onclick="showLogin()">
+      Back to Login
+    </button>
+  </div>
+</section>
+
+<!-- APP -->
+
+<div id="app" class="hidden">
+
+<header>
+  <div class="header-left">
+    <div class="brand">Connectly</div>
+  </div>
+
+  <div class="header-center">
+    <input
+      id="searchInput"
+      class="search"
+      placeholder="Search Connectly"
+      oninput="searchUsers()"
+    >
+  </div>
+
+  <div class="header-right">
+    <button class="icon-btn" onclick="showHome()">⌂</button>
+    <button class="icon-btn" onclick="showNotifications()">🔔</button>
+    <button class="icon-btn" onclick="showProfile()">👤</button>
+    <button class="icon-btn" onclick="logout()">↪</button>
+  </div>
+</header>
+
+<div class="app">
+
+<div class="layout">
+
+<!-- LEFT -->
+
+<aside class="sidebar left-sidebar">
+
+  <div class="menu-item" onclick="showProfile()">
+    <img id="sideAvatar" class="avatar small-avatar">
+    <span class="menu-text" id="sideName"></span>
+  </div>
+
+  <div class="menu-item" onclick="showHome()">
+    🏠 <span class="menu-text">Home</span>
+  </div>
+
+  <div class="menu-item" onclick="showFriends()">
+    👥 <span class="menu-text">Friends</span>
+  </div>
+
+  <div class="menu-item" onclick="showNotifications()">
+    🔔 <span class="menu-text">Notifications</span>
+  </div>
+
+  <div class="menu-item" onclick="showProfile()">
+    👤 <span class="menu-text">Profile</span>
+  </div>
+
+</aside>
+
+<!-- MAIN -->
+
+<main id="mainContent">
+
+  <div id="feed"></div>
+
+</main>
+
+<!-- RIGHT -->
+
+<aside class="sidebar right-sidebar">
+
+  <div class="card">
+    <div class="panel-title">People you may know</div>
+
+    <div id="suggestions"></div>
+  </div>
+
+  <div class="card">
+    <div class="panel-title">Online contacts</div>
+
+    <div class="friend">
+      <div class="avatar small-avatar"></div>
+      <div class="friend-info">
+        <div class="friend-name">Alex Morgan</div>
+      </div>
+    </div>
+
+    <div class="friend">
+      <div class="avatar small-avatar"></div>
+      <div class="friend-info">
+        <div class="friend-name">Sarah Williams</div>
+      </div>
+    </div>
+
+  </div>
+
+</aside>
+
+</div>
+</div>
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-nav">
+  <button onclick="showHome()">🏠</button>
+  <button onclick="showFriends()">👥</button>
+  <button onclick="openCreatePost()">➕</button>
+  <button onclick="showNotifications()">🔔</button>
+  <button onclick="showProfile()">👤</button>
+</nav>
+
+</div>
+
+<!-- CREATE POST MODAL -->
+
+<div id="postModal" class="modal hidden">
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <h2>Create Post</h2>
+      <button class="close-btn" onclick="closeCreatePost()">✕</button>
+    </div>
+
+    <textarea
+      id="postText"
+      class="post-textarea"
+      placeholder="What's on your mind?"
+    ></textarea>
+
+    <input
+      id="postImage"
+      class="image-url"
+      placeholder="Optional image URL"
+    >
+
+    <button class="primary-btn" onclick="createPost()">
+      Post
+    </button>
+
+  </div>
+</div>
+
+<script>
+
+/* DATA */
+
+let currentUser = JSON.parse(localStorage.getItem("connectlyCurrentUser"));
+
+let users = JSON.parse(localStorage.getItem("connectlyUsers")) || [
+  {
+    id: 1,
+    name: "Alex Morgan",
+    email: "alex@example.com",
+    password: "123456",
+    bio: "Enjoying life and connecting with amazing people.",
+    avatar: "https://i.pravatar.cc/150?img=12"
+  },
+  {
+    id: 2,
+    name: "Sarah Williams",
+    email: "sarah@example.com",
+    password: "123456",
+    bio: "Photography • Travel • Music",
+    avatar: "https://i.pravatar.cc/150?img=32"
+  },
+  {
+    id: 3,
+    name: "Daniel Smith",
+    email: "daniel@example.com",
+    password: "123456",
+    bio: "Technology enthusiast.",
+    avatar: "https://i.pravatar.cc/150?img=13"
+  }
+];
+
+let posts = JSON.parse(localStorage.getItem("connectlyPosts")) || [
+  {
+    id: 1,
+    userId: 1,
+    text: "Welcome to Connectly! 👋",
+    image: "",
+    likes: 4,
+    likedBy: [],
+    comments: [
+      {
+        userId: 2,
+        text: "Welcome!"
+      }
+    ],
+    created: Date.now()
+  },
+  {
+    id: 2,
+    userId: 2,
+    text: "Beautiful day today! ☀️",
+    image: "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=80",
+    likes: 12,
+    likedBy: [],
+    comments: [],
+    created: Date.now() - 3600000
+  }
+];
+
+function saveData() {
+  localStorage.setItem("connectlyUsers", JSON.stringify(users));
+  localStorage.setItem("connectlyPosts", JSON.stringify(posts));
+}
+
+/* AUTH */
+
+function showSignup() {
+  document.getElementById("authScreen").classList.add("hidden");
+  document.getElementById("signupScreen").classList.remove("hidden");
+}
+
+function showLogin() {
+  document.getElementById("signupScreen").classList.add("hidden");
+  document.getElementById("authScreen").classList.remove("hidden");
+}
+
+function signup() {
+
+  const name = document.getElementById("signupName").value.trim();
+  const email = document.getElementById("signupEmail").value.trim();
+  const password = document.getElementById("signupPassword").value;
+
+  if (!name || !email || !password) {
+    alert("Please complete all fields.");
+    return;
+  }
+
+  if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+    alert("An account with this email already exists.");
+    return;
+  }
+
+  const newUser = {
+    id: Date.now(),
+    name,
+    email,
+    password,
+    bio: "New Connectly member.",
+    avatar: `https://i.pravatar.cc/150?u=${Date.now()}`
+  };
+
+  users.push(newUser);
+  currentUser = newUser;
+
+  localStorage.setItem(
+    "connectlyCurrentUser",
+    JSON.stringify(currentUser)
+  );
+
+  saveData();
+  startApp();
+}
+
+function login() {
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  const user = users.find(
+    u =>
+      u.email.toLowerCase() === email.toLowerCase() &&
+      u.password === password
+  );
+
+  if (!user) {
+    alert("Incorrect email or password.");
+    return;
+  }
+
+  currentUser = user;
+
+  localStorage.setItem(
+    "connectlyCurrentUser",
+    JSON.stringify(currentUser)
+  );
+
+  startApp();
+}
+
+function logout() {
+
+  currentUser = null;
+  localStorage.removeItem("connectlyCurrentUser");
+
+  document.getElementById("app").classList.add("hidden");
+  document.getElementById("authScreen").classList.remove("hidden");
+}
+
+/* APP */
+
+function startApp() {
+
+  document.getElementById("authScreen").classList.add("hidden");
+  document.getElementById("signupScreen").classList.add("hidden");
+  document.getElementById("app").classList.remove("hidden");
+
+  updateUserUI();
+  showHome();
+  renderSuggestions();
+}
+
+function updateUserUI() {
+
+  document.getElementById("sideName").textContent =
+    currentUser.name;
+
+  document.getElementById("sideAvatar").src =
+    currentUser.avatar;
+}
+
+/* HOME */
+
+function showHome() {
+
+  document.getElementById("mainContent").innerHTML = `
+
+    <div class="card">
+
+      <div class="create-top">
+
+        <img
+          class="avatar"
+          src="${currentUser.avatar}"
+        >
+
+        <button
+          class="create-input"
+          onclick="openCreatePost()"
+        >
+          What's on your mind, ${escapeHTML(currentUser.name.split(" ")[0])}?
+        </button>
+
+      </div>
+
+      <div class="post-options">
+
+        <div
+          class="post-option"
+          onclick="openCreatePost()"
+        >
+          📷 Photo
+        </div>
+
+        <div
+          class="post-option"
+          onclick="openCreatePost()"
+        >
+          😊 Feeling
+        </div>
+
+        <div
+          class="post-option"
+          onclick="openCreatePost()"
+        >
+          📍 Location
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="feed"></div>
+  `;
+
+  renderPosts();
+}
+
+function renderPosts() {
+
+  const feed = document.getElementById("feed");
+
+  if (!feed) return;
+
+  feed.innerHTML = "";
+
+  const sortedPosts = [...posts].sort(
+    (a,b) => b.created - a.created
+  );
+
+  sortedPosts.forEach(post => {
+
+    const user = users.find(u => u.id === post.userId);
+
+    if (!user) return;
+
+    const liked = post.likedBy.includes(currentUser.id);
+
+    const commentsHTML = post.comments.map(comment => {
+
+      const commentUser =
+        users.find(u => u.id === comment.userId);
+
+      return `
+        <div class="comment">
+
+          <img
+            class="avatar small-avatar"
+            src="${commentUser?.avatar || ""}"
+          >
+
+          <div class="comment-bubble">
+
+            <div class="comment-name">
+              ${escapeHTML(commentUser?.name || "User")}
+            </div>
+
+            ${escapeHTML(comment.text)}
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+    const article = document.createElement("article");
+
+    article.className = "card";
+
+    article.innerHTML = `
+
+      <div class="post-header">
+
+        <img
+          class="avatar"
+          src="${user.avatar}"
+        >
+
+        <div>
+          <div class="post-author">
+            ${escapeHTML(user.name)}
+          </div>
+
+          <div class="post-time">
+            ${timeAgo(post.created)}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="post-text">
+        ${escapeHTML(post.text)}
+      </div>
+
+      ${
+        post.image
+        ?
+        `<img
+          class="post-image"
+          src="${escapeAttribute(post.image)}"
+          onerror="this.style.display='none'"
+        >`
+        :
+        ""
+      }
+
+      <div class="post-stats">
+
+        <span>👍 ${post.likes}</span>
+
+        <span>
+          ${post.comments.length} comments
+        </span>
+
+      </div>
+
+      <div class="post-actions">
+
+        <button
+          class="post-action ${liked ? "liked" : ""}"
+          onclick="toggleLike(${post.id})"
+        >
+          👍 Like
+        </button>
+
+        <button
+          class="post-action"
+          onclick="focusComment(${post.id})"
+        >
+          💬 Comment
+        </button>
+
+        <button
+          class="post-action"
+          onclick="sharePost(${post.id})"
+        >
+          ↗ Share
+        </button>
+
+      </div>
+
+      <div class="comments">
+
+        ${commentsHTML}
+
+        <input
+          id="comment-${post.id}"
+          class="comment-input"
+          placeholder="Write a comment..."
+          onkeydown="submitComment(event, ${post.id})"
+        >
+
+      </div>
+    `;
+
+    feed.appendChild(article);
+
+  });
+}
+
+/* POSTS */
+
+function openCreatePost() {
+  document.getElementById("postModal").classList.remove("hidden");
+}
+
+function closeCreatePost() {
+  document.getElementById("postModal").classList.add("hidden");
+}
+
+function createPost() {
+
+  const text =
+    document.getElementById("postText").value.trim();
+
+  const image =
+    document.getElementById("postImage").value.trim();
+
+  if (!text && !image) {
+    alert("Write something or add an image.");
+    return;
+  }
+
+  posts.push({
+    id: Date.now(),
+    userId: currentUser.id,
+    text,
+    image,
+    likes: 0,
+    likedBy: [],
+    comments: [],
+    created: Date.now()
+  });
+
+  saveData();
+
+  document.getElementById("postText").value = "";
+  document.getElementById("postImage").value = "";
+
+  closeCreatePost();
+  showHome();
+}
+
+function toggleLike(postId) {
+
+  const post = posts.find(p => p.id === postId);
+
+  if (!post) return;
+
+  const index = post.likedBy.indexOf(currentUser.id);
+
+  if (index === -1) {
+    post.likedBy.push(currentUser.id);
+    post.likes++;
+  } else {
+    post.likedBy.splice(index,1);
+    post.likes = Math.max(0, post.likes - 1);
+  }
+
+  saveData();
+  renderPosts();
+}
+
+function focusComment(postId) {
+
+  const input =
+    document.getElementById(`comment-${postId}`);
+
+  if (input) {
+    input.focus();
+  }
+}
+
+function submitComment(event, postId) {
+
+  if (event.key !== "Enter") return;
+
+  const input = event.target;
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  const post = posts.find(p => p.id === postId);
+
+  if (!post) return;
+
+  post.comments.push({
+    userId: currentUser.id,
+    text
+  });
+
+  saveData();
+
+  renderPosts();
+}
+
+function sharePost(postId) {
+
+  const post = posts.find(p => p.id === postId);
+
+  if (!post) return;
+
+  const shared = {
+    ...post,
+    id: Date.now(),
+    userId: currentUser.id,
+    text: `Shared post:\n\n${post.text}`,
+    created: Date.now(),
+    likes: 0,
+    likedBy: [],
+    comments: []
+  };
+
+  posts.push(shared);
+
+  saveData();
+  showHome();
+
+  alert("Post shared!");
+}
+
+/* PROFILE */
+
+function showProfile() {
+
+  const myPosts =
+    posts.filter(p => p.userId === currentUser.id);
+
+  document.getElementById("mainContent").innerHTML = `
+
+    <div class="card" style="padding:0">
+
+      <div class="profile-cover"></div>
+
+      <div class="profile-body">
+
+        <img
+          class="profile-avatar"
+          src="${currentUser.avatar}"
+        >
+
+        <div class="profile-name">
+          ${escapeHTML(currentUser.name)}
+        </div>
+
+        <div class="profile-bio">
+          ${escapeHTML(currentUser.bio)}
+        </div>
+
+        <button
+          class="add-btn"
+          onclick="editBio()"
+        >
+          Edit Profile
+        </button>
+
+      </div>
+
+    </div>
+
+    <h3 style="margin:20px 5px">
+      Your Posts
+    </h3>
+
+    <div id="profilePosts"></div>
+  `;
+
+  const container =
+    document.getElementById("profilePosts");
+
+  myPosts
+    .sort((a,b) => b.created - a.created)
+    .forEach(post => {
+
+      const user = currentUser;
+
+      const article =
+        document.createElement("article");
+
+      article.className = "card";
+
+      article.innerHTML = `
+
+        <div class="post-header">
+
+          <img
+            class="avatar"
+            src="${user.avatar}"
+          >
+
+          <div>
+            <div class="post-author">
+              ${escapeHTML(user.name)}
+            </div>
+
+            <div class="post-time">
+              ${timeAgo(post.created)}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="post-text">
+          ${escapeHTML(post.text)}
+        </div>
+
+        ${
+          post.image
+          ?
+          `<img
+            class="post-image"
+            src="${escapeAttribute(post.image)}"
+          >`
+          :
+          ""
+        }
+
+      `;
+
+      container.appendChild(article);
+    });
+}
+
+function editBio() {
+
+  const bio =
+    prompt("Enter your new bio:", currentUser.bio);
+
+  if (bio === null) return;
+
+  currentUser.bio = bio;
+
+  const index =
+    users.findIndex(u => u.id === currentUser.id);
+
+  users[index] = currentUser;
+
+  localStorage.setItem(
+    "connectlyCurrentUser",
+    JSON.stringify(currentUser)
+  );
+
+  saveData();
+
+  updateUserUI();
+  showProfile();
+}
+
+/* FRIENDS */
+
+function showFriends() {
+
+  document.getElementById("mainContent").innerHTML = `
+
+    <div class="card">
+
+      <h2>People on Connectly</h2>
+
+      <p style="color:#65676b;margin-top:6px">
+        Discover people and connect with them.
+      </p>
+
+    </div>
+
+    <div id="friendsList"></div>
+  `;
+
+  const list =
+    document.getElementById("friendsList");
+
+  users
+    .filter(u => u.id !== currentUser.id)
+    .forEach(user => {
+
+      const item =
+        document.createElement("div");
+
+      item.className = "card";
+
+      item.innerHTML = `
+
+        <div class="friend">
+
+          <img
+            class="avatar"
+            src="${user.avatar}"
+          >
+
+          <div class="friend-info">
+
+            <div class="friend-name">
+              ${escapeHTML(user.name)}
+            </div>
+
+            <div style="color:#65676b;font-size:13px">
+              ${escapeHTML(user.bio)}
+            </div>
+
+          </div>
+
+          <button
+            class="add-btn"
+            onclick="addFriend('${escapeAttribute(user.name)}')"
+          >
+            Add
+          </button>
+
+        </div>
+      `;
+
+      list.appendChild(item);
+    });
+}
+
+function addFriend(name) {
+  alert(`Friend request sent to ${name}.`);
+}
+
+/* SUGGESTIONS */
+
+function renderSuggestions() {
+
+  const container =
+    document.getElementById("suggestions");
+
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  users
+    .filter(u => u.id !== currentUser.id)
+    .slice(0,3)
+    .forEach(user => {
+
+      const div =
+        document.createElement("div");
+
+      div.className = "friend";
+
+      div.innerHTML = `
+
+        <img
+          class="avatar small-avatar"
+          src="${user.avatar}"
+        >
+
+        <div class="friend-info">
+          <div class="friend-name">
+            ${escapeHTML(user.name)}
+          </div>
+        </div>
+
+        <button
+          class="add-btn"
+          onclick="addFriend('${escapeAttribute(user.name)}')"
+        >
+          Add
+        </button>
+      `;
+
+      container.appendChild(div);
+    });
+}
+
+/* NOTIFICATIONS */
+
+function showNotifications() {
+
+  document.getElementById("mainContent").innerHTML = `
+
+    <div class="card">
+
+      <h2>Notifications</h2>
+
+      <div style="padding:20px 0;color:#65676b">
+        🔔 You're all caught up.
+      </div>
+
+      <div style="padding:12px 0;border-top:1px solid #ddd">
+        Welcome to Connectly!
+      </div>
+
+      <div style="padding:12px 0;border-top:1px solid #ddd">
+        👥 Discover new people to connect with.
+      </div>
+
+    </div>
+  `;
+}
+
+/* SEARCH */
+
+function searchUsers() {
+
+  const query =
+    document.getElementById("searchInput").value
+      .toLowerCase()
+      .trim();
+
+  if (!query) {
+    showHome();
+    return;
+  }
+
+  const results =
+    users.filter(u =>
+      u.name.toLowerCase().includes(query)
+    );
+
+  document.getElementById("mainContent").innerHTML = `
+
+    <div class="card">
+
+      <h2>Search Results</h2>
+
+      <p style="color:#65676b;margin-top:5px">
+        ${results.length} people found
+      </p>
+
+    </div>
+
+    <div id="searchResults"></div>
+  `;
+
+  const container =
+    document.getElementById("searchResults");
+
+  results.forEach(user => {
+
+    const item =
+      document.createElement("div");
+
+    item.className = "card";
+
+    item.innerHTML = `
+
+      <div class="friend">
+
+        <img
+          class="avatar"
+          src="${user.avatar}"
+        >
+
+        <div class="friend-info">
+
+          <div class="friend-name">
+            ${escapeHTML(user.name)}
+          </div>
+
+          <div style="color:#65676b">
+            ${escapeHTML(user.bio)}
+          </div>
+
+        </div>
+
+        <button
+          class="add-btn"
+          onclick="addFriend('${escapeAttribute(user.name)}')"
+        >
+          Add
+        </button>
+
+      </div>
+    `;
+
+    container.appendChild(item);
+  });
+}
+
+/* HELPERS */
+
+function timeAgo(timestamp) {
+
+  const seconds =
+    Math.floor((Date.now() - timestamp) / 1000);
+
+  if (seconds < 60)
+    return "Just now";
+
+  const minutes =
+    Math.floor(seconds / 60);
+
+  if (minutes < 60)
+    return `${minutes}m`;
+
+  const hours =
+    Math.floor(minutes / 60);
+
+  if (hours < 24)
+    return `${hours}h`;
+
+  const days =
+    Math.floor(hours / 24);
+
+  return `${days}d`;
+}
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function escapeAttribute(value) {
+  return escapeHTML(value);
+}
+
+/* START */
+
+if (currentUser) {
+  startApp();
+}
+
+</script>
+
+</body>
+</html>
